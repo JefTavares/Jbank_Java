@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.2.0
+    container_name: mysql_jbank
+    restart: unless-stopped
+    environment:
+      MYSQL_USER: jbank
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: jbankdb
+      MYSQL_ROOT_PASSWORD: 123
+      # Configurações adicionais para melhor performance
+      MYSQL_INNODB_BUFFER_POOL_SIZE: 256M
+      MYSQL_INNODB_LOG_FILE_SIZE: 64M
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - jbank_network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+volumes:
+  mysql_data:
+    name: jbank_mysql_data
+    driver: local
+
+networks:
+  jbank_network:
+    name: jbank_network
+    driver: bridge
