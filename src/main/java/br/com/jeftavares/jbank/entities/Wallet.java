@@ -1,9 +1,15 @@
 package br.com.jeftavares.jbank.entities;
 
-import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 @Entity
 @Table(name = "tb_wallet")
@@ -26,7 +32,11 @@ public class Wallet {
     @Column(name = "balance")
     private BigDecimal balance;
 
+    @Version
+    private Long version;
+
     public Wallet() {
+        // Default constructor for JPA
     }
 
     public UUID getId() {
@@ -68,4 +78,13 @@ public class Wallet {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
 }

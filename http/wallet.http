@@ -2,8 +2,8 @@ POST http://localhost:8080/wallets
 Content-Type: application/json
 
 {
-    "userId": "12345",
-    "balance": 1000.00,
-    "currency": "BRL"
+    "cpf": "",
+    "name": "João da Silva",
+    "email": "jds@tst.com"
 }
 

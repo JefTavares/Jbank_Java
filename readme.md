@@ -1,0 +1,1 @@
+select BIN_TO_UUID(id) from tb_wallet tw ;
